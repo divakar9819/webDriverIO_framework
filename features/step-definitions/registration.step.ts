@@ -36,11 +36,13 @@ const user : User = {}
     });
 
 
-    When(/^user click submit button$/, async() => {
+    When(/^user click submit button for registration$/, async() => {
+        console.log("calling user registration method")
         await RegistrationPage.doRegistration(user)
     });
 
     Then(/^user registration done successfully$/, async () => {
+        console.log("calling verify registration method")
         await RegistrationPage.verifyRegistration();
     });
 

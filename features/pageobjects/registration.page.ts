@@ -225,7 +225,7 @@ class RegistrationPage extends Page{
             await submitButtonElement.click();
     
             // Pause for 5 seconds (if needed)
-            await browser.pause(5000);
+            await browser.pause(2000);
         } catch (error) {
             console.error("An error occurred during registration:", error);
         }
@@ -236,7 +236,7 @@ class RegistrationPage extends Page{
         const registrationURL = await browser.getUrl();
         console.log(registrationURL)
         await expect(registrationURL).toContain("register_sucess.php");
-        await browser.pause(1000);
+        await browser.pause(500);
     }
 
 }

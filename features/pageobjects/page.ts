@@ -11,6 +11,6 @@ export default class Page {
     */
     public open (path: string) {
         //test/newtours/register.php
-        return browser.url("https://demo.guru99.com/test/newtours/index.php")
+        return browser.url("/test/newtours/index.php")
     }
 }

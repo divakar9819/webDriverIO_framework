@@ -5,7 +5,7 @@ Feature: User registrations
     And user enter <firstName> , <lastName> , <phoneNumber> and <email>
     And user enter address city state postal code and country
     And user enter <userName> , <password> and confirm password
-    And user click submit button
+    And user click submit button for registration
     Then user registration done successfully
 
     Examples:

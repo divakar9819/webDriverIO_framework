@@ -1,41 +1,80 @@
-// import { $ } from '@wdio/globals'
-// import Page from './page';
+import Page from "./page";
+import {$,browser,expect} from '@wdio/globals'
 
-// /**
-//  * sub page containing specific selectors and methods for a specific page
-//  */
-// class LoginPage extends Page {
-//     /**
-//      * define selectors using getter methods
-//      */
-//     public get inputUsername () {
-//         return $('#username');
-//     }
+class LoginPage extends Page{
 
-//     public get inputPassword () {
-//         return $('#password');
-//     }
+    public async open(){
+        console.log("calling open method===========================")
+        return super.open('');
+    }
 
-//     public get btnSubmit () {
-//         return $('button[type="submit"]');
-//     }
+    public get getuserName(){
+        return $('input[name="userName"]')
+    }
 
-//     /**
-//      * a method to encapsule automation code to interact with the page
-//      * e.g. to login using username and password
-//      */
-//     public async login (username: string, password: string) {
-//         await this.inputUsername.setValue(username);
-//         await this.inputPassword.setValue(password);
-//         await this.btnSubmit.click();
-//     }
+    public get getPassword(){
+        return $('input[name="password"]')
+    }
 
-//     /**
-//      * overwrite specific options to adapt it to page object
-//      */
-//     public open () {
-//         return super.open('login');
-//     }
-// }
+    public get getSubmitButton(){
+        return $('input[name="submit"]')
+    }
 
-// export default new LoginPage();
+
+    public async clicklLoginLink() {
+        const loginLink = await $('a[href="login.php"]')
+        await loginLink.waitForClickable({ timeout: 1000 });
+        await loginLink.click();
+    }
+
+    public async login(user: User){
+        console.log("login method+++++++++++++++++++++++")
+        console.log(user.userName)
+        console.log(user.password)
+        const userNameElement = await this.getuserName;
+        await browser.waitUntil(
+            async () => await userNameElement.isDisplayed(),
+            {
+                timeout: 1000,
+                timeoutMsg: 'Element was not displayed after 1s'
+            }
+        );
+        await userNameElement.setValue(user.userName)
+
+        const passwordElement = await this.getPassword;
+        await browser.waitUntil(
+            async () => await passwordElement.isDisplayed(),
+            {
+                timeout: 1000,
+                timeoutMsg: 'Element was not displayed after 1s'
+            }
+        );
+        await passwordElement.setValue(user.password)
+
+        const submitElement = await this.getSubmitButton;
+        await browser.waitUntil(
+            async () => await submitElement.isDisplayed(),
+            {
+                timeout: 1000,
+                timeoutMsg: 'Element was not displayed after 1s'
+            }
+        );
+        await submitElement.click();
+
+        await browser.pause(2000);
+
+    }
+
+    public async verifyLogin(){
+        const loginSuccessUrl = await browser.getUrl();
+        await expect(loginSuccessUrl).toContain("login_sucess.php")
+        await browser.pause(500)
+
+    }
+
+
+
+
+}
+
+export default new LoginPage();
