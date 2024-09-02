@@ -9,8 +9,9 @@ export default class Page {
     * Opens a sub page of the page
     * @param path path of the sub page (e.g. /path/to/page.html)
     */
-    public open (path: string) {
+    public async open (path: string) {
         //test/newtours/register.php
+        await browser.maximizeWindow();
         return browser.url("/test/newtours/index.php")
     }
 }
