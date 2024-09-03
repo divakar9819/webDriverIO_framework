@@ -12,6 +12,7 @@ export default class Page {
     public async open (path: string) {
         //test/newtours/register.php
         await browser.maximizeWindow();
-        return browser.url("/test/newtours/index.php")
+        //return browser.url("/test/newtours/index.php")
+        return browser.url(path)
     }
 }
