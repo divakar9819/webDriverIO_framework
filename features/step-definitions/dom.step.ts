@@ -7,9 +7,10 @@ Given(/^click dom link$/, async () => {
 	console.log("1 dom=================")
     await DomPage.open()
     await DomPage.clickDom()
+    await DomPage.printTableData();
 });
 
 Then(/^select dom value$/, async () => {
-	console.log("1 dom=================")
+	console.log("2 dom=================")
     
 });

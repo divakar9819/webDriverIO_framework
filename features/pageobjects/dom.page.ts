@@ -1,5 +1,5 @@
 import Page from "./page";
-import { $, browser } from '@wdio/globals';
+import { $,$$, browser } from '@wdio/globals';
 
 class DomPage extends Page {
 
@@ -26,6 +26,73 @@ class DomPage extends Page {
     public get getTableHeadTh(){
         return this.getTableHead.$$('th')
     }
+    
+    public get getTableBody(){
+        return this.getTable.$('table tbody');
+    }
+    
+    public get getTableBodyTr(){
+        return this.getTableBody.$$('tr');
+    }
+    
+    public get getTableBodyTrTd(){
+        return $$('td');
+    }
+    
+    public async printTableData(){
+        const tableBodyElement = await this.getTableBody;
+        await browser.waitUntil(
+            async () => await tableBodyElement.isDisplayed(),
+            {
+                timeout: 2000,
+                timeoutMsg: 'table body element not found after 2 seconds'
+            }
+        );
+    
+        const tableRowElements = await this.getTableBodyTr;
+        await browser.waitUntil(
+            async () => tableRowElements.length > 0,
+            {
+                timeout: 5000,
+                timeoutMsg: 'table body row elements not found after 5 seconds'
+            }
+        );
+    
+        for (let i = 0; i < tableRowElements.length; i++) {
+            const tableBodyColumnElements = await tableRowElements[i].$$('td');
+            await browser.waitUntil(
+                async () => tableBodyColumnElements.length > 0,
+                {
+                    timeout: 2000,
+                    timeoutMsg: 'table body column elements not found after 2 seconds'
+                }
+            );
+    
+            for (let j = 0; j < tableBodyColumnElements.length; j++) {
+                const columnValue = await tableBodyColumnElements[j].getText();
+                console.log("==============================");
+                console.log(columnValue);
+                console.log("==============================");
+            }
+
+            if (i == 2) {
+                const editButtonElement = await tableBodyColumnElements[tableBodyColumnElements.length - 1].$('=edit');
+                
+                await browser.waitUntil(
+                    async () => await editButtonElement.isDisplayed(),
+                    {
+                        timeout: 2000,
+                        timeoutMsg: 'Edit button element not found after 2 seconds'
+                    } 
+                );
+            
+                await editButtonElement.click();
+                await browser.pause(5000);
+            }
+            
+        }
+    }
+    
 
     public async clickDom() {
         const domElement = await this.domLink;
